@@ -1,6 +1,7 @@
 package com.example.todomodel
 
 import android.os.Bundle
+import android.text.Layout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
 import androidx.compose.state
@@ -38,17 +39,17 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             Column {
-                Row(modifier = LayoutFlexible(3f, true)) {
+                Row(modifier = LayoutWeight(3f, true)) {
                     Title()
                 }
-                Row(modifier = LayoutFlexible(1f, true)) {
+                Row(modifier = LayoutWeight(1f, true)) {
                     EditText(model)
                 }
                 Divider(color = Color.LightGray)
-                Row(modifier = LayoutFlexible(10f, true)) {
+                Row(modifier = LayoutWeight(10f, true)) {
                     ShowList(model)
                 }
-                Row(modifier = LayoutFlexible(1f, true)) {
+                Row(modifier = LayoutWeight(1f, true)) {
                     Footer(model)
                 }
             }
@@ -130,7 +131,7 @@ fun ToDoItem(toDo: ToDo, model: ToDoModel) {
     Row {
         if (!toDo.editing) {
             Checkbox(
-                    modifier = LayoutFlexible(1f),
+                    modifier = LayoutWeight(1f),
                     checked = toDo.completed,
                     onCheckedChange = {
                         toDo.completed = !toDo.completed
@@ -138,7 +139,7 @@ fun ToDoItem(toDo: ToDo, model: ToDoModel) {
             )
             Clickable(onClick = { toDo.editing = true }) {
                 Text(
-                        modifier = LayoutFlexible(8f),
+                        modifier = LayoutWeight(8f),
                         text = toDo.taskText,
                         style = if (toDo.completed)
                             TextStyle(
@@ -153,16 +154,16 @@ fun ToDoItem(toDo: ToDo, model: ToDoModel) {
                 )
             }
             TextButton(
-                    modifier = LayoutFlexible(1f),
+                    modifier = LayoutWeight(1f),
                     onClick = { model.delete(toDo) }
             ) {
                 Text("X")
             }
         } else {
             val editor = state { TextFieldValue(toDo.taskText) }
-            Spacer(modifier = LayoutFlexible(1f))
+            Spacer(modifier = LayoutWeight(1f))
             TextField(
-                    modifier = LayoutFlexible(8f),
+                    modifier = LayoutWeight(8f),
                     value = editor.value,
                     onValueChange = { editor.value = it },
                     keyboardType = KeyboardType.Text,
@@ -181,7 +182,7 @@ fun ToDoItem(toDo: ToDo, model: ToDoModel) {
                             background = Color.Yellow
                     )
             )
-            Spacer(modifier = LayoutFlexible(1f))
+            Spacer(modifier = LayoutWeight(1f))
         }
     }
     Divider(color = Color.LightGray)
@@ -189,27 +190,26 @@ fun ToDoItem(toDo: ToDo, model: ToDoModel) {
 
 @Composable
 fun Footer(model: ToDoModel) {
-    Align(alignment = Alignment.BottomCenter) {
         Row() {
-            TextButton() {
+            TextButton(onClick = {}) {
                 Text("${model.getActiveCount()} Items left")
             }
             if (model.display == ToDoModel.Display.All) {
-                Button() { Text("All") }
+                Button(onClick = {}) { Text("All") }
             } else {
                 TextButton(onClick = { model.display = ToDoModel.Display.All }) {
                     Text("All")
                 }
             }
             if (model.display == ToDoModel.Display.Active) {
-                Button() { Text("Active") }
+                Button(onClick = {}) { Text("Active") }
             } else {
                 TextButton(onClick = { model.display = ToDoModel.Display.Active }) {
                     Text("Active")
                 }
             }
             if (model.display == ToDoModel.Display.Completed) {
-                Button() { Text("Completed") }
+                Button(onClick = {}) { Text("Completed") }
             } else {
                 TextButton(onClick = { model.display = ToDoModel.Display.Completed }) {
                     Text("Completed")
@@ -220,5 +220,4 @@ fun Footer(model: ToDoModel) {
                 Text(if (model.hasCompleted()) "Clear Completed" else "")
             }
         }
-    }
 }
