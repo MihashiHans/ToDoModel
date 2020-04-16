@@ -1,13 +1,12 @@
 package com.example.todomodel
 
 import android.os.Bundle
-import android.text.Layout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
 import androidx.compose.state
-import androidx.ui.core.Alignment
-import androidx.ui.core.Text
-import androidx.ui.core.TextField
+import androidx.ui.core.Modifier
+import androidx.ui.foundation.Text
+import androidx.ui.foundation.TextField
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Clickable
 import androidx.ui.foundation.VerticalScroller
@@ -19,14 +18,12 @@ import androidx.ui.material.Button
 import androidx.ui.material.Checkbox
 import androidx.ui.material.Divider
 import androidx.ui.material.TextButton
-import androidx.ui.text.TextFieldValue
+import androidx.ui.foundation.TextFieldValue
 import androidx.ui.text.TextStyle
 import androidx.ui.text.style.TextDecoration
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import androidx.ui.unit.sp
-import com.example.todomodel.ToDo
-import com.example.todomodel.ToDoModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var model: ToDoModel
@@ -39,17 +36,17 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             Column {
-                Row(modifier = LayoutWeight(3f, true)) {
+                Row(modifier = Modifier.weight(3f, true)) {
                     Title()
                 }
-                Row(modifier = LayoutWeight(1f, true)) {
+                Row(modifier = Modifier.weight(1f, true)) {
                     EditText(model)
                 }
                 Divider(color = Color.LightGray)
-                Row(modifier = LayoutWeight(10f, true)) {
+                Row(modifier = Modifier.weight(10f, true)) {
                     ShowList(model)
                 }
-                Row(modifier = LayoutWeight(1f, true)) {
+                Row(modifier = Modifier.weight(1f, true)) {
                     Footer(model)
                 }
             }
@@ -61,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun Title() {
     Text(
-            modifier = LayoutPadding(20.dp),
+            modifier = Modifier.padding(20.dp),
             text = "todos",
             style = TextStyle(color = Color.Red, fontSize = 74.sp)
     )
@@ -131,7 +128,7 @@ fun ToDoItem(toDo: ToDo, model: ToDoModel) {
     Row {
         if (!toDo.editing) {
             Checkbox(
-                    modifier = LayoutWeight(1f),
+                    modifier = Modifier.weight(1f),
                     checked = toDo.completed,
                     onCheckedChange = {
                         toDo.completed = !toDo.completed
@@ -139,7 +136,7 @@ fun ToDoItem(toDo: ToDo, model: ToDoModel) {
             )
             Clickable(onClick = { toDo.editing = true }) {
                 Text(
-                        modifier = LayoutWeight(8f),
+                        modifier = Modifier.weight(8f),
                         text = toDo.taskText,
                         style = if (toDo.completed)
                             TextStyle(
@@ -154,16 +151,16 @@ fun ToDoItem(toDo: ToDo, model: ToDoModel) {
                 )
             }
             TextButton(
-                    modifier = LayoutWeight(1f),
+                    modifier = Modifier.weight(1f),
                     onClick = { model.delete(toDo) }
             ) {
                 Text("X")
             }
         } else {
             val editor = state { TextFieldValue(toDo.taskText) }
-            Spacer(modifier = LayoutWeight(1f))
+            Spacer(modifier = Modifier.weight(1f))
             TextField(
-                    modifier = LayoutWeight(8f),
+                    modifier = Modifier.weight(8f),
                     value = editor.value,
                     onValueChange = { editor.value = it },
                     keyboardType = KeyboardType.Text,
@@ -182,7 +179,7 @@ fun ToDoItem(toDo: ToDo, model: ToDoModel) {
                             background = Color.Yellow
                     )
             )
-            Spacer(modifier = LayoutWeight(1f))
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
     Divider(color = Color.LightGray)
